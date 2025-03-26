@@ -28,12 +28,12 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
     
-    @GetMapping(value="/getAll", produces=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Funcionario>> getFuncionarios(){
         return ResponseEntity.ok(funcionarioService.buscarTodosFuncionarios());
     }
     
-    @GetMapping(value="/get/{idFuncionario}", produces=MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/{idFuncionario}", produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Funcionario> getFuncionario(@PathVariable Long idFuncionario){
         try {
             return ResponseEntity.ok(funcionarioService.buscarFuncionario(idFuncionario));
@@ -49,7 +49,7 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarioService.cadastrarFuncionario(funcionarioRecord));
     }
     
-    @PutMapping(value="/put/{idFuncionario}",  produces=MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/{idFuncionario}",  produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> putFuncionario(@PathVariable Long idFuncionario, @RequestBody FuncionarioRecord funcionarioRecord){
         try {
             return ResponseEntity.ok(funcionarioService.atualizarFuncionario(idFuncionario, funcionarioRecord));
@@ -60,7 +60,7 @@ public class FuncionarioController {
         }
     }
     
-    @DeleteMapping(value="delete/{idFuncionario}")
+    @DeleteMapping(value="/{idFuncionario}")
     public ResponseEntity<Object> deleteFuncionario(@PathVariable Long idFuncionario){
         
         try {            
