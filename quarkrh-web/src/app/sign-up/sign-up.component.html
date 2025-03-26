@@ -1,0 +1,53 @@
+<div class="col-md-12">
+  <div class="col-md-4 bg-light sign-up-container">
+    <mat-tab-group (selectedTabChange)="onTabChanged()" class="tab-group">
+      <mat-tab label="Login">
+        <div class="py-4">
+          <form (ngSubmit)="onSubmitLoginForm()" [formGroup]="loginFormGroup" class="login-form-container text-left">
+            <div class="input-form">
+              <label for="usuario">Usuário</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" id="usuario" formControlName="login" name="usuario" required>
+              </mat-form-field>
+            </div>
+
+            <div class="input-form">
+              <label for="senha">Senha</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" id="senha" formControlName="senha" name="senha" required>
+              </mat-form-field>
+            </div>
+            <button mat-flat-button class="submit-btn" type="submit">Login</button>
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab label="Cadastro">
+        <div class="py-4">
+          <form (ngSubmit)="onSubmitCadastroForm()" [formGroup]="cadastroFormGroup" class="login-form-container text-left">
+            <div class="input-form">
+              <label for="usuario">Usuário</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" id="usuario" formControlName="login" name="usuario" required>
+              </mat-form-field>
+            </div>
+
+            <div class="input-form">
+              <label for="senha">Senha</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" formControlName="senha" name="senha" required>
+              </mat-form-field>
+            </div>
+
+            <div class="input-form">
+              <label for="confirmarSenha">Repita a senha</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" formControlName="confirmarSenha" name="confirmarSenha" required>
+              </mat-form-field>
+            </div>
+            <button mat-flat-button class="submit-btn" type="submit">Login</button>
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
