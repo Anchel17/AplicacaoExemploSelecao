@@ -1,0 +1,62 @@
+package com.esig.quarkrh.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.esig.quarkrh.entity.Funcionario;
+import com.esig.quarkrh.record.FuncionarioRecord;
+import com.esig.quarkrh.repository.FuncionarioRepository;
+
+@Service
+public class FuncionarioService {
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+    
+    public List<Funcionario> buscarTodosFuncionarios(){
+        return funcionarioRepository.findAll();
+    }
+    
+    public Funcionario buscarFuncionario(Long idFuncionario) {
+        var funcionario = funcionarioRepository.findById(idFuncionario)
+                .orElseThrow(() -> new IllegalStateException("Funcionario com id "+ idFuncionario   + "não encontrado na base de dados."));
+        
+        return funcionario;
+    }
+    
+    public FuncionarioRecord cadastrarFuncionario(FuncionarioRecord funcionarioRecord) {
+        var funcionario = new Funcionario();
+        funcionario.setNome(funcionarioRecord.nome());
+        funcionario.setCargo(funcionarioRecord.cargo());
+        funcionario.setSalario(funcionarioRecord.salario());
+        funcionario.setDataAdmissao(funcionarioRecord.dataAdmissao());
+        
+        funcionarioRepository.save(funcionario);
+        
+        return funcionarioRecord;
+    }
+    
+    public FuncionarioRecord atualizarFuncionario(Long idFuncionario, FuncionarioRecord funcionarioRecord) {
+        var funcionario = buscarFuncionario(idFuncionario);
+        
+        funcionario.setNome(funcionarioRecord.nome());
+        funcionario.setCargo(funcionarioRecord.cargo());
+        funcionario.setSalario(funcionarioRecord.salario());
+        funcionario.setDataAdmissao(funcionarioRecord.dataAdmissao());
+        
+        return transformarFuncionarioEntityEmRecord(funcionarioRepository.save(funcionario));
+    }
+    
+    public void deletarFuncionario(Long idFuncionario) {
+        if(funcionarioRepository.findById(idFuncionario).isEmpty()) {
+            throw new IllegalStateException("Funcionario com id "+ idFuncionario   + " não encontrado na base de dados.");
+        }
+
+        funcionarioRepository.deleteById(idFuncionario);
+    }
+    
+    private FuncionarioRecord transformarFuncionarioEntityEmRecord(Funcionario funcionario) {
+        return new FuncionarioRecord(funcionario.getNome(), funcionario.getCargo(), funcionario.getSalario(), funcionario.getDataAdmissao());
+    }
+}
