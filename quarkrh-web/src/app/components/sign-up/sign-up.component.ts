@@ -6,10 +6,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatButtonModule } from '@angular/material/button';
 import { SignUpService } from './sign-up.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [MatTabsModule, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [MatTabsModule, MatFormFieldModule, MatInputModule, FormsModule,
+    MatButtonModule, ReactiveFormsModule, MatSelectModule, HttpClientModule],
   providers: [SignUpService],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
@@ -17,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class SignUpComponent {
   public usuario: string;
   public senha: string;
-  public confirmarSenha: string;
+  public role: string;
 
   public loginFormGroup: FormGroup;
   public cadastroFormGroup: FormGroup;
@@ -33,7 +35,11 @@ export class SignUpComponent {
   }
 
   onSubmitCadastroForm(){
-    console.log(this.cadastroFormGroup.value);
+    this.signUpService.cadastrar({
+      login: this.cadastroFormGroup.value.login,
+      password: this.cadastroFormGroup.value.senha,
+      role: this.cadastroFormGroup.value.role
+    })
   }
 
   onTabChanged(){
@@ -45,7 +51,7 @@ export class SignUpComponent {
     this.cadastroFormGroup.patchValue({
       login: '',
       senha: '',
-      confirmarSenha: ''
+      role: ''
     });
   }
 
@@ -58,7 +64,7 @@ export class SignUpComponent {
     this.cadastroFormGroup = this.fb.group({
       login: ['', {validators: [Validators.required], updateOn: 'blur'}],
       senha: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      confirmarSenha: ['', {validators: [Validators.required], updateOn: 'blur'}]
+      role: ['', {validators: [Validators.required], updateOn: 'blur'}]
     });
   }
 }

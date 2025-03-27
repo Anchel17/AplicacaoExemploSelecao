@@ -40,7 +40,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(token);
     }
     
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRecord registerRecord){
         if(this.userRepository.findByLogin(registerRecord.login()) != null ) {
             return ResponseEntity.badRequest().build();

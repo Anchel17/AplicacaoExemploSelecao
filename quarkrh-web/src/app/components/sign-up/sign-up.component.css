@@ -35,3 +35,11 @@
 ::ng-deep .mdc-notched-outline{
   padding: 8px 0 !important;
 }
+
+::ng-deep .mdc-text-field{
+  padding: 0!important;
+}
+
+ ::ng-deep .mat-mdc-option{
+  background-color: #F8F9FA!important;
+ }

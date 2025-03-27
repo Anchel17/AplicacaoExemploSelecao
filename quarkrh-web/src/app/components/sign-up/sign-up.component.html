@@ -39,12 +39,15 @@
             </div>
 
             <div class="input-form">
-              <label for="confirmarSenha">Repita a senha</label>
-              <mat-form-field appearance="outline">
-                <input matInput type="text" class="input" formControlName="confirmarSenha" name="confirmarSenha" required>
+              <label for="role">Nível de acesso</label>
+              <mat-form-field>
+                <mat-select [(value)]="role" formControlName="role">
+                  <mat-option value="USER">USER</mat-option>
+                  <mat-option value="ADMIN">ADMIN</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
-            <button mat-flat-button class="submit-btn" type="submit">Login</button>
+            <button mat-flat-button class="submit-btn" type="submit">Cadastrar</button>
           </form>
         </div>
       </mat-tab>
