@@ -10,4 +10,5 @@ import com.esig.quarkrh.record.FuncionarioRecord;
 
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>{
+    List<Funcionario> findAllByOrderByIdAsc();
 }

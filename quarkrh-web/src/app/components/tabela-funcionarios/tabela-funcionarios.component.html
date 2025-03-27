@@ -1,8 +1,13 @@
 <div class="col-md-6 m-auto py-4">
-  <div class="d-flex justify-content-end pb-2">
+  <div class="d-flex justify-content-between pb-2">
+    <button class="d-flex align-items-center gap-1" id="logout-button" (click)="solicitarLogout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+
     <button class="d-flex align-items-center gap-1" id="cadastrar-funcionario-button" (click)="openDialog(false)">
       <mat-icon>add</mat-icon>
-       Novo Funcionário
+      <span>Novo Funcionário</span>
     </button>
   </div>
 

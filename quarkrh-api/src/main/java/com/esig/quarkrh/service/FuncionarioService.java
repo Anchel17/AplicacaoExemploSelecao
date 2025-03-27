@@ -15,7 +15,7 @@ public class FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
     
     public List<Funcionario> buscarTodosFuncionarios(){
-        return funcionarioRepository.findAll();
+        return funcionarioRepository.findAllByOrderByIdAsc();
     }
     
     public Funcionario buscarFuncionario(Long idFuncionario) {

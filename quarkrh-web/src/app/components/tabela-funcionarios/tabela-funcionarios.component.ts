@@ -6,13 +6,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { FuncionarioModalComponent } from './funcionario-modal/funcionario-modal.component';
 import { FuncionarioService } from './funcionario.service';
 import { HttpClientModule } from '@angular/common/http';
+import { SignUpService } from '../sign-up/sign-up.service';
 
 @Component({
   selector: 'app-tabela-funcionarios',
   imports: [MatTableModule, MatIconModule, MatIcon, HttpClientModule],
   templateUrl: './tabela-funcionarios.component.html',
   styleUrl: './tabela-funcionarios.component.css',
-  providers: [FuncionarioService]
+  providers: [FuncionarioService, SignUpService]
 })
 export class TabelaFuncionariosComponent {
   readonly dialog = inject(MatDialog);
@@ -20,7 +21,7 @@ export class TabelaFuncionariosComponent {
   public displayedColumns: string[] = ['nome', 'cargo', 'salario', 'dataAdmissao', 'acao'];
   public dataSource: FuncionarioDTO[];
 
-  constructor(private funcionarioService: FuncionarioService){}
+  constructor(private funcionarioService: FuncionarioService, private signUpService: SignUpService){}
 
   openDialog(isEdicao: boolean, funcionario: any = null, isDeletar: any = null) {
     const dialogRef = this.dialog.open(FuncionarioModalComponent, {
@@ -53,5 +54,9 @@ export class TabelaFuncionariosComponent {
       .subscribe(response => {
         this.dataSource = response
       });
+  }
+
+  public solicitarLogout(){
+    this.signUpService.logout();
   }
 }
