@@ -7,10 +7,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import { FuncionarioService } from '../funcionario.service';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-funcionario-modal',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule,
-    FormsModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule, HttpClientModule],
+    FormsModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule, HttpClientModule, CommonModule],
   templateUrl: './funcionario-modal.component.html',
   styleUrl: './funcionario-modal.component.css',
   providers: [FuncionarioService]
@@ -33,25 +34,57 @@ export class FuncionarioModalComponent {
   }
 
   public getModalTitle(){
-    return this.data.isEdicao ? 'Editar Funcionário' : 'Cadastrar Funcionário'
+    return this.data.isEdicao ? 'Alterar Funcionário' : 'Cadastrar Funcionário'
+  }
+
+  public getSubmitButtonText(){
+    if(this.data.isDeletar){
+      return 'Deletar';
+    }
+
+    return this.data.isEdicao ? 'Alterar' : 'Cadastrar'
   }
 
   public submitFuncionarioForm(){
+    if(this.data.isDeletar){
+      this.callDeletarFuncionario();
+      return;
+    }
+
     if(!this.validarData()){
       alert("DATA INVÁLIDA!\nPOR FAVOR FORNEÇA UMA DATA NO FORMATO: DD/MM/AAAA");
       return;
     }
 
+    let dataAdmissaoValida = this.tratarDataRecebida(this.funcionarioForm.value.dataAdmissao, '/', '-');
 
-    let dataAdmissaoValida = this.tratarDataRecebida();
+    if(this.data.isEdicao){
+      this.callAlterarFuncionario(dataAdmissaoValida)
+      return;
+    }
+
     this.funcionarioService.cadastrarFuncionario(
-
       {nome: this.funcionarioForm.value.nome,
        cargo: this.funcionarioForm.value.cargo,
        salario: this.funcionarioForm.value.salario,
        dataAdmissao: dataAdmissaoValida
       }
     );
+  }
+
+  private callAlterarFuncionario(dataAdmissaoValida: string){
+    this.funcionarioService.alterarFuncionario(
+      {nome: this.funcionarioForm.value.nome,
+       cargo: this.funcionarioForm.value.cargo,
+       salario: this.funcionarioForm.value.salario,
+       dataAdmissao: dataAdmissaoValida
+      },
+      this.data.funcionario.id
+    );
+  }
+
+  private callDeletarFuncionario(){
+    this.funcionarioService.deletarFuncionario(this.data.funcionario.id);
   }
 
   private inicializarForm(){
@@ -64,7 +97,12 @@ export class FuncionarioModalComponent {
   }
 
   private inicializarFormComDados(){
-
+    this.funcionarioForm = this.fb.group({
+      nome: [this.data.funcionario.nome, {validators: [Validators.required], updateOn: 'blur'}],
+      cargo: [this.data.funcionario.cargo, {validators: [Validators.required], updateOn: 'blur'}],
+      salario: [this.data.funcionario.salario, {validators: [Validators.required], updateOn: 'blur'}],
+      dataAdmissao: [this.tratarDataRecebida(this.data.funcionario.dataAdmissao, '-', '/'), {validators: [Validators.required], updateOn: 'blur'}]
+    })
   }
 
   private validarData(){
@@ -81,10 +119,9 @@ export class FuncionarioModalComponent {
     return dataRaw.split('/').length == 3;
   }
 
-  private tratarDataRecebida(){
-    let dataRaw = this.funcionarioForm.value.dataAdmissao;
-    let dataDiaMesAno = dataRaw.split('/');
+  private tratarDataRecebida(dataRaw: string, splitChar: string, divider: string){
+    let dataDiaMesAno = dataRaw.split(splitChar);
 
-    return dataDiaMesAno[2] + '-' + dataDiaMesAno[1] + '-' + dataDiaMesAno[0];
+    return dataDiaMesAno[2] + divider + dataDiaMesAno[1] + divider + dataDiaMesAno[0];
   }
 }

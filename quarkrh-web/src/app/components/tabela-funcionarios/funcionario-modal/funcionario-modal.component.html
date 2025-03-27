@@ -1,38 +1,43 @@
 <div class="modal-container">
-  <h2 mat-dialog-title>{{getModalTitle()}}</h2>
   <form (ngSubmit)="submitFuncionarioForm()" [formGroup]="funcionarioForm">
-      <mat-dialog-content class="mat-typography">
-      <div class="input-form">
-        <label for="nome">Nome</label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" class="input" id="nome" formControlName="nome" name="nome" required>
-        </mat-form-field>
-      </div>
+    <div *ngIf="!this.data.isDeletar; else deletar" >
+       <h1 mat-dialog-title>{{getModalTitle()}}</h1>
+        <mat-dialog-content class="mat-typography">
+          <div class="input-form">
+            <label for="nome">Nome</label>
+            <mat-form-field appearance="outline">
+              <input autofocus matInput type="text" class="input" id="nome" formControlName="nome" name="nome" required>
+            </mat-form-field>
+          </div>
 
-      <div class="input-form">
-        <label for="cargo">Cargo</label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" class="input" id="cargo" formControlName="cargo" name="cargo" required>
-        </mat-form-field>
-      </div>
+          <div class="input-form">
+            <label for="cargo">Cargo</label>
+            <mat-form-field appearance="outline">
+              <input matInput type="text" class="input" id="cargo" formControlName="cargo" name="cargo" required>
+            </mat-form-field>
+          </div>
 
-      <div class="input-form">
-        <label for="salario">Salario</label>
-        <mat-form-field appearance="outline">
-          <input matInput type="number" class="input" id="salario" formControlName="salario" name="salario" required>
-        </mat-form-field>
-      </div>
+          <div class="input-form">
+            <label for="salario">Salario</label>
+            <mat-form-field appearance="outline">
+              <input matInput type="number" class="input" id="salario" formControlName="salario" name="salario" required>
+            </mat-form-field>
+          </div>
 
-      <div class="input-form">
-        <label for="dataAdmissao">Data de admissão</label>
-        <mat-form-field appearance="outline">
-          <input matInput id="dataAdmissao" formControlName="dataAdmissao" name="dataAdmissao" [maxlength]="10" required>
-        </mat-form-field>
+          <div class="input-form">
+            <label for="dataAdmissao">Data de admissão</label>
+            <mat-form-field appearance="outline">
+              <input matInput id="dataAdmissao" formControlName="dataAdmissao" name="dataAdmissao" [maxlength]="10" required>
+            </mat-form-field>
+          </div>
+        </mat-dialog-content>
       </div>
-    </mat-dialog-content>
+    <ng-template #deletar>
+      <h2 class="deletar-funcionario-title py-4">Deseja deletar o funcionário?</h2>
+    </ng-template>
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close id="cancelar-button">Cancelar</button>
-      <button type="submit" mat-button [mat-dialog-close]="true" id="confirmar-button">Cadastrar</button>
+      <button type="submit" mat-button [mat-dialog-close]="true" id="confirmar-button">{{getSubmitButtonText()}}</button>
     </mat-dialog-actions>
   </form>
 </div>

@@ -4,42 +4,54 @@ import { FuncionarioDTO } from '../../DTO/FuncionarioDTO';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { FuncionarioModalComponent } from './funcionario-modal/funcionario-modal.component';
+import { FuncionarioService } from './funcionario.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-tabela-funcionarios',
-  imports: [MatTableModule, MatIconModule, MatIcon],
+  imports: [MatTableModule, MatIconModule, MatIcon, HttpClientModule],
   templateUrl: './tabela-funcionarios.component.html',
-  styleUrl: './tabela-funcionarios.component.css'
+  styleUrl: './tabela-funcionarios.component.css',
+  providers: [FuncionarioService]
 })
 export class TabelaFuncionariosComponent {
   readonly dialog = inject(MatDialog);
 
   public displayedColumns: string[] = ['nome', 'cargo', 'salario', 'dataAdmissao', 'acao'];
-  public dataSource: FuncionarioDTO[] = [{nome: 'Cleitin', cargo: 'Repositor', salario: 2500.00, dataAdmissao: '21/01/2001'}];
+  public dataSource: FuncionarioDTO[];
 
-  constructor(){}
+  constructor(private funcionarioService: FuncionarioService){}
 
-  openDialog(isEdicao: boolean) {
+  openDialog(isEdicao: boolean, funcionario: any = null, isDeletar: any = null) {
     const dialogRef = this.dialog.open(FuncionarioModalComponent, {
       data: {
         isEdicao: isEdicao,
+        funcionario: funcionario,
+        isDeletar: isDeletar
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      this.carregarDataSource();
     });
   }
 
   ngOnInit(){
-    this.openDialog(false);
+    this.carregarDataSource();
   }
 
   public editFuncionario(funcionario: FuncionarioDTO){
-    console.log(funcionario);
+    this.openDialog(true, funcionario);
   }
 
   public deleteFuncionario(funcionario: FuncionarioDTO){
-    console.log(funcionario);
+    this.openDialog(false, funcionario, true);
+  }
+
+  private carregarDataSource(){
+    this.funcionarioService.carregarFuncionarios()
+      .subscribe(response => {
+        this.dataSource = response
+      });
   }
 }
