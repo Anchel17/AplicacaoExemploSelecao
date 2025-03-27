@@ -35,7 +35,6 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody  @Valid AuthenticationRecord authenticationRecord){
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecord.login(), authenticationRecord.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        
         var token = tokenService.generateToken((Users)auth.getPrincipal());
         
         return ResponseEntity.ok(token);
