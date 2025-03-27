@@ -45,7 +45,9 @@ public class FuncionarioService {
         funcionario.setSalario(funcionarioRecord.salario());
         funcionario.setDataAdmissao(funcionarioRecord.dataAdmissao());
         
-        return transformarFuncionarioEntityEmRecord(funcionarioRepository.save(funcionario));
+        funcionarioRepository.save(funcionario);
+        
+        return transformarFuncionarioEntityEmRecord(funcionario);
     }
     
     public void deletarFuncionario(Long idFuncionario) {
@@ -57,6 +59,6 @@ public class FuncionarioService {
     }
     
     private FuncionarioRecord transformarFuncionarioEntityEmRecord(Funcionario funcionario) {
-        return new FuncionarioRecord(funcionario.getNome(), funcionario.getCargo(), funcionario.getSalario(), funcionario.getDataAdmissao());
+        return new FuncionarioRecord(funcionario.getId(), funcionario.getNome(), funcionario.getCargo(), funcionario.getSalario(), funcionario.getDataAdmissao());
     }
 }
