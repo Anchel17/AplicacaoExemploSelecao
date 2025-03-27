@@ -9,10 +9,16 @@ export class SignUpService {
   constructor(private httpClient: HttpClient){}
 
   public login(loginDTO: LoginDTO){
-    this.httpClient.post(this.API_URL + "login", loginDTO, {responseType: 'text'})
-      .subscribe(response =>
-        console.log(response)
-      );
+    try{
+      this.httpClient.post(this.API_URL + "login", loginDTO, {responseType: 'text'})
+        .subscribe(response => {
+        localStorage.setItem('token', response);
+      });
+    }
+    catch(error){
+      alert(error)
+    }
+
   }
 
   public cadastrar(registerDTO: RegisterDTO){
