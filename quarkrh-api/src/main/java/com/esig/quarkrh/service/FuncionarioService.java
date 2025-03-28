@@ -20,7 +20,7 @@ public class FuncionarioService {
     
     public Funcionario buscarFuncionario(Long idFuncionario) {
         var funcionario = funcionarioRepository.findById(idFuncionario)
-                .orElseThrow(() -> new IllegalStateException("Funcionario com id "+ idFuncionario   + "não encontrado na base de dados."));
+                .orElseThrow(() -> new IllegalStateException("Funcionario com id "+ idFuncionario   + " não encontrado na base de dados."));
         
         return funcionario;
     }
