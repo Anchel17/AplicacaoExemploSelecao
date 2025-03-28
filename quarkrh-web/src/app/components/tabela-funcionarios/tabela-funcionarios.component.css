@@ -53,3 +53,11 @@ table {
 #delete-button{
   color: #EE0000;
 }
+
+.hide-button{
+  display: none!important;
+}
+
+.disable-action{
+  color: #C3C3C7!important;
+}

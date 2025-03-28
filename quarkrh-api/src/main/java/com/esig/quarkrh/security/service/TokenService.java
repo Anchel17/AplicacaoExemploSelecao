@@ -3,8 +3,11 @@ package com.esig.quarkrh.security.service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
@@ -22,10 +25,16 @@ public class TokenService {
     public String generateToken(Users user) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
+            
+            List<String> roles = user.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            
             return JWT.create()
                                 .withIssuer("quarkrh")
                                 .withSubject(user.getLogin())
                                 .withExpiresAt(generateExpirationDate())
+                                .withClaim("role", roles)
                                 .sign(algorithm);
         }
         catch(JWTCreationException e) {

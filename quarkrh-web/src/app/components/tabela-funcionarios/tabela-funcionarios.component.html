@@ -5,7 +5,7 @@
       <span>Logout</span>
     </button>
 
-    <button class="d-flex align-items-center gap-1" id="cadastrar-funcionario-button" (click)="openDialog(false)">
+    <button [disabled]="!isUsuarioAdmin()" class="d-flex align-items-center gap-1 {{hideButtonClass()}}" id="cadastrar-funcionario-button" (click)="openDialog(false)">
       <mat-icon>add</mat-icon>
       <span>Novo Funcionário</span>
     </button>
@@ -37,10 +37,10 @@
         <th mat-header-cell *matHeaderCellDef class="table-header">Ação</th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex justify-content-center gap-2">
-            <button class="action-button" id="edit-button" (click)="editFuncionario(element)">
+            <button [disabled]="!isUsuarioAdmin()" class="action-button {{disableActionClass()}}" id="edit-button" (click)="editFuncionario(element)">
               <mat-icon>mode_edit</mat-icon>
             </button>
-            <button class="action-button" id="delete-button" (click)="deleteFuncionario(element)">
+            <button [disabled]="!isUsuarioAdmin()" class="action-button {{disableActionClass()}}" id="delete-button" (click)="deleteFuncionario(element)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

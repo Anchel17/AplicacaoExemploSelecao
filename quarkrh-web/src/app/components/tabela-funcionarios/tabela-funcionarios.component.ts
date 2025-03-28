@@ -10,6 +10,7 @@ import { SignUpService } from '../sign-up/sign-up.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { JwtDecoderService } from '../../jwtDecoder.service';
 
 registerLocaleData(ptBr);
 
@@ -18,15 +19,18 @@ registerLocaleData(ptBr);
   imports: [MatTableModule, MatIconModule, MatIcon, HttpClientModule, CommonModule],
   templateUrl: './tabela-funcionarios.component.html',
   styleUrl: './tabela-funcionarios.component.css',
-  providers: [FuncionarioService, SignUpService, CurrencyPipe, { provide: LOCALE_ID, useValue: 'pt' },]
+  providers: [FuncionarioService, SignUpService, CurrencyPipe,
+    JwtDecoderService, { provide: LOCALE_ID, useValue: 'pt' },]
 })
 export class TabelaFuncionariosComponent {
   readonly dialog = inject(MatDialog);
+  public permissaoDoUsuario: string;
 
   public displayedColumns: string[] = ['nome', 'cargo', 'salario', 'dataAdmissao', 'acao'];
   public dataSource: FuncionarioDTO[];
 
-  constructor(private funcionarioService: FuncionarioService, private signUpService: SignUpService){}
+  constructor(private funcionarioService: FuncionarioService,
+    private signUpService: SignUpService, private jwtDecoderService: JwtDecoderService){}
 
   openDialog(isEdicao: boolean, funcionario: any = null, isDeletar: any = null) {
     const dialogRef = this.dialog.open(FuncionarioModalComponent, {
@@ -44,6 +48,7 @@ export class TabelaFuncionariosComponent {
 
   ngOnInit(){
     this.carregarDataSource();
+    this.carregarPermissoesDoUsuario();
   }
 
   public editFuncionario(funcionario: FuncionarioDTO){
@@ -61,6 +66,11 @@ export class TabelaFuncionariosComponent {
       });
   }
 
+  private carregarPermissoesDoUsuario(){
+    let permissoesArray = this.jwtDecoderService.getUserPermission();
+    this.permissaoDoUsuario = permissoesArray.length > 0 ? permissoesArray[0] : '';
+  }
+
   public formatarData(dataRaw: string){
     let dataDiaMesAno = dataRaw.split('-');
 
@@ -69,5 +79,17 @@ export class TabelaFuncionariosComponent {
 
   public solicitarLogout(){
     this.signUpService.logout();
+  }
+
+  public isUsuarioAdmin(): boolean{
+    return this.permissaoDoUsuario == 'ROLE_ADMIN';
+  }
+
+  public hideButtonClass(): string{
+    return this.permissaoDoUsuario == 'ROLE_ADMIN' ? '' : 'hide-button';
+  }
+
+  public disableActionClass(): string{
+    return this.permissaoDoUsuario == 'ROLE_ADMIN' ? '' : 'disable-action';
   }
 }
