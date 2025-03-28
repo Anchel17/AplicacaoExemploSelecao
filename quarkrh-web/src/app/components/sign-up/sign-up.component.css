@@ -43,3 +43,8 @@
  ::ng-deep .mat-mdc-option{
   background-color: #F8F9FA!important;
  }
+
+ .validation-error{
+  margin-top: -22px;
+  color: #DD0000;
+ }

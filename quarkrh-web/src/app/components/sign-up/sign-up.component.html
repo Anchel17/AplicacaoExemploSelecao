@@ -3,32 +3,15 @@
     <mat-tab-group (selectedTabChange)="onTabChanged()" class="tab-group">
       <mat-tab label="Login">
         <div class="py-4">
-          <form (ngSubmit)="onSubmitLoginForm()" [formGroup]="loginFormGroup" class="login-form-container text-left">
+          <form (ngSubmit)="onSubmitLoginForm()" [formGroup]="loginFormGroup"class="login-form-container text-left" #formLogin="ngForm">
             <div class="input-form">
               <label for="usuario">Usuário</label>
               <mat-form-field appearance="outline">
-                <input matInput type="text" class="input" id="usuario" formControlName="login" name="usuario" required>
+                <input matInput type="text" class="input" formControlName="login" name="usuario" required>
               </mat-form-field>
-            </div>
-
-            <div class="input-form">
-              <label for="senha">Senha</label>
-              <mat-form-field appearance="outline">
-                <input matInput type="password" class="input" id="senha" formControlName="senha" name="senha" required>
-              </mat-form-field>
-            </div>
-            <button mat-flat-button class="submit-btn" type="submit">Login</button>
-          </form>
-        </div>
-      </mat-tab>
-      <mat-tab label="Cadastro">
-        <div class="py-4">
-          <form (ngSubmit)="onSubmitCadastroForm()" [formGroup]="cadastroFormGroup" class="login-form-container text-left">
-            <div class="input-form">
-              <label for="usuario">Usuário</label>
-              <mat-form-field appearance="outline">
-                <input matInput type="text" class="input" id="usuario" formControlName="login" name="usuario" required>
-              </mat-form-field>
+              <p *ngIf="login.invalid && formLogin.submitted" class="validation-error">
+                O Usuário é obrigatório.
+              </p>
             </div>
 
             <div class="input-form">
@@ -36,6 +19,35 @@
               <mat-form-field appearance="outline">
                 <input matInput type="password" class="input" formControlName="senha" name="senha" required>
               </mat-form-field>
+              <p *ngIf="senha.invalid && formLogin.submitted" class="validation-error">
+                Digite sua senha.
+              </p>
+            </div>
+            <button mat-flat-button class="submit-btn" type="submit">Login</button>
+          </form>
+        </div>
+      </mat-tab>
+      <mat-tab label="Cadastro">
+        <div class="py-4">
+          <form (ngSubmit)="onSubmitCadastroForm()" [formGroup]="cadastroFormGroup" class="login-form-container text-left" #formCadastro="ngForm">
+            <div class="input-form">
+              <label for="usuario">Usuário</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="text" class="input" id="usuario" formControlName="login" name="usuario" required>
+              </mat-form-field>
+              <p *ngIf="cadastroFormLogin.invalid && formCadastro.submitted" class="validation-error">
+                O Usuário é obrigatório.
+              </p>
+            </div>
+
+            <div class="input-form">
+              <label for="senha">Senha</label>
+              <mat-form-field appearance="outline">
+                <input matInput type="password" class="input" formControlName="senha" name="senha" required>
+              </mat-form-field>
+              <p *ngIf="cadastroFormSenha.invalid && formCadastro.submitted" class="validation-error">
+                Digite uma senha.
+              </p>
             </div>
 
             <div class="input-form">
@@ -46,6 +58,9 @@
                   <mat-option value="ADMIN">ADMIN</mat-option>
                 </mat-select>
               </mat-form-field>
+              <p *ngIf="cadastroFormRole.invalid && formCadastro.submitted" class="validation-error">
+                Selecione o nível de acesso.
+              </p>
             </div>
             <button mat-flat-button class="submit-btn" type="submit">Cadastrar</button>
           </form>
