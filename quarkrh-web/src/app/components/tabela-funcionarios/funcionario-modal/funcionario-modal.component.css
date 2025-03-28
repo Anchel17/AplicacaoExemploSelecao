@@ -7,6 +7,10 @@
   flex-direction: column;
 }
 
+input{
+  text-align: left!important;
+}
+
 #cancelar-button{
   background-color: #fff;
   border: none;
