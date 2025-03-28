@@ -20,14 +20,21 @@
           <div class="input-form">
             <label for="salario">Salario</label>
             <mat-form-field appearance="outline">
-              <input matInput type="number" class="input" id="salario" formControlName="salario" name="salario" required>
+              <input matInput currencyMask class="input"
+              id="salario" formControlName="salario" name="salario"
+              [options]="{
+                prefix: 'R$ ',
+                thousands: '.',
+                decimal: ',' }"
+               required>
             </mat-form-field>
           </div>
 
           <div class="input-form">
             <label for="dataAdmissao">Data de admissão</label>
             <mat-form-field appearance="outline">
-              <input matInput id="dataAdmissao" formControlName="dataAdmissao" name="dataAdmissao" [maxlength]="10" required>
+              <input matInput type="date" id="dataAdmissao" formControlName="dataAdmissao"
+               name="dataAdmissao" min="1900-01-01" required>
             </mat-form-field>
           </div>
         </mat-dialog-content>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, LOCALE_ID } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { FuncionarioDTO } from '../../DTO/FuncionarioDTO';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
@@ -7,13 +7,18 @@ import { FuncionarioModalComponent } from './funcionario-modal/funcionario-modal
 import { FuncionarioService } from './funcionario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpService } from '../sign-up/sign-up.service';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(ptBr);
 
 @Component({
   selector: 'app-tabela-funcionarios',
-  imports: [MatTableModule, MatIconModule, MatIcon, HttpClientModule],
+  imports: [MatTableModule, MatIconModule, MatIcon, HttpClientModule, CommonModule],
   templateUrl: './tabela-funcionarios.component.html',
   styleUrl: './tabela-funcionarios.component.css',
-  providers: [FuncionarioService, SignUpService]
+  providers: [FuncionarioService, SignUpService, CurrencyPipe, { provide: LOCALE_ID, useValue: 'pt' },]
 })
 export class TabelaFuncionariosComponent {
   readonly dialog = inject(MatDialog);
@@ -54,6 +59,12 @@ export class TabelaFuncionariosComponent {
       .subscribe(response => {
         this.dataSource = response
       });
+  }
+
+  public formatarData(dataRaw: string){
+    let dataDiaMesAno = dataRaw.split('-');
+
+    return dataDiaMesAno[2] + '/' + dataDiaMesAno[1] + '/' + dataDiaMesAno[0];
   }
 
   public solicitarLogout(){

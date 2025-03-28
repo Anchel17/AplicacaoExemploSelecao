@@ -8,10 +8,13 @@ import { DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import { FuncionarioService } from '../funcionario.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+
 @Component({
   selector: 'app-funcionario-modal',
   imports: [MatDialogModule, MatFormFieldModule, MatInputModule,
-    FormsModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule, HttpClientModule, CommonModule],
+    FormsModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule,
+    HttpClientModule, CommonModule, CurrencyMaskModule],
   templateUrl: './funcionario-modal.component.html',
   styleUrl: './funcionario-modal.component.css',
   providers: [FuncionarioService]
@@ -51,15 +54,8 @@ export class FuncionarioModalComponent {
       return;
     }
 
-    if(!this.validarData()){
-      alert("DATA INVÁLIDA!\nPOR FAVOR FORNEÇA UMA DATA NO FORMATO: DD/MM/AAAA");
-      return;
-    }
-
-    let dataAdmissaoValida = this.tratarDataRecebida(this.funcionarioForm.value.dataAdmissao, '/', '-');
-
     if(this.data.isEdicao){
-      this.callAlterarFuncionario(dataAdmissaoValida)
+      this.callAlterarFuncionario(this.funcionarioForm.value.dataAdmissao)
       return;
     }
 
@@ -67,7 +63,7 @@ export class FuncionarioModalComponent {
       {nome: this.funcionarioForm.value.nome,
        cargo: this.funcionarioForm.value.cargo,
        salario: this.funcionarioForm.value.salario,
-       dataAdmissao: dataAdmissaoValida
+       dataAdmissao: this.funcionarioForm.value.dataAdmissao
       }
     );
   }
@@ -101,27 +97,7 @@ export class FuncionarioModalComponent {
       nome: [this.data.funcionario.nome, {validators: [Validators.required], updateOn: 'blur'}],
       cargo: [this.data.funcionario.cargo, {validators: [Validators.required], updateOn: 'blur'}],
       salario: [this.data.funcionario.salario, {validators: [Validators.required], updateOn: 'blur'}],
-      dataAdmissao: [this.tratarDataRecebida(this.data.funcionario.dataAdmissao, '-', '/'), {validators: [Validators.required], updateOn: 'blur'}]
+      dataAdmissao: [this.data.funcionario.dataAdmissao, {validators: [Validators.required], updateOn: 'blur'}]
     })
-  }
-
-  private validarData(){
-    let dataRaw = this.funcionarioForm.value.dataAdmissao;
-
-    if(this.formatoValido(dataRaw)){
-      return true;
-    }
-
-    return false;
-  }
-
-  private formatoValido(dataRaw: string){
-    return dataRaw.split('/').length == 3;
-  }
-
-  private tratarDataRecebida(dataRaw: string, splitChar: string, divider: string){
-    let dataDiaMesAno = dataRaw.split(splitChar);
-
-    return dataDiaMesAno[2] + divider + dataDiaMesAno[1] + divider + dataDiaMesAno[0];
   }
 }

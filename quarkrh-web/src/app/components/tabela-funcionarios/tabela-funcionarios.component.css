@@ -24,6 +24,12 @@ table {
   border: none;
 }
 
+.table-header{
+  font-weight: bold;
+  background-image: none!important;
+  background-color: #E2E2E2!important;
+}
+
 #logout-button{
   background-color: #0000AA;
   padding: .5rem 1rem;

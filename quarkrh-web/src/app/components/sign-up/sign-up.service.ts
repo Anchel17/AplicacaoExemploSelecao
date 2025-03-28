@@ -25,9 +25,7 @@ export class SignUpService {
 
   public cadastrar(registerDTO: RegisterDTO){
     this.httpClient.post(this.API_URL + "register", registerDTO)
-      .subscribe(response =>
-        console.log(response)
-      );
+      .subscribe();
   }
 
   public logout(){

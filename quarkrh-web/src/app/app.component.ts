@@ -19,7 +19,5 @@ export class AppComponent {
     if(!token){
       this.router.navigate(['/signUp']);
     }
-
-    console.log(token);
   }
 }
