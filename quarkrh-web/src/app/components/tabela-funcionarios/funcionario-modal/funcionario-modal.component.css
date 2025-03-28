@@ -11,6 +11,11 @@ input{
   text-align: left!important;
 }
 
+.validation-error{
+  margin-top: -22px;
+  color: #DD0000;
+ }
+
 #cancelar-button{
   background-color: #fff;
   border: none;
