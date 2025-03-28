@@ -57,14 +57,14 @@ export class SignUpComponent {
 
   private inicializarForms(){
     this.loginFormGroup = this.fb.group({
-      login: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      senha: ['', {validators: [Validators.required], updateOn: 'blur'}]
+      login: ['', {validators: [Validators.required], updateOn: 'change'}],
+      senha: ['', {validators: [Validators.required], updateOn: 'change'}]
     });
 
     this.cadastroFormGroup = this.fb.group({
-      login: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      senha: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      role: ['', {validators: [Validators.required], updateOn: 'blur'}]
+      login: ['', {validators: [Validators.required], updateOn: 'change'}],
+      senha: ['', {validators: [Validators.required], updateOn: 'change'}],
+      role: ['', {validators: [Validators.required], updateOn: 'change'}]
     });
   }
 }

@@ -85,19 +85,19 @@ export class FuncionarioModalComponent {
 
   private inicializarForm(){
     this.funcionarioForm = this.fb.group({
-      nome: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      cargo: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      salario: ['', {validators: [Validators.required], updateOn: 'blur'}],
-      dataAdmissao: ['', {validators: [Validators.required], updateOn: 'blur'}]
+      nome: ['', {validators: [Validators.required], updateOn: 'change'}],
+      cargo: ['', {validators: [Validators.required], updateOn: 'change'}],
+      salario: ['', {validators: [Validators.required], updateOn: 'change'}],
+      dataAdmissao: ['', {validators: [Validators.required], updateOn: 'change'}]
     })
   }
 
   private inicializarFormComDados(){
     this.funcionarioForm = this.fb.group({
-      nome: [this.data.funcionario.nome, {validators: [Validators.required], updateOn: 'blur'}],
-      cargo: [this.data.funcionario.cargo, {validators: [Validators.required], updateOn: 'blur'}],
-      salario: [this.data.funcionario.salario, {validators: [Validators.required], updateOn: 'blur'}],
-      dataAdmissao: [this.data.funcionario.dataAdmissao, {validators: [Validators.required], updateOn: 'blur'}]
+      nome: [this.data.funcionario.nome, {validators: [Validators.required], updateOn: 'change'}],
+      cargo: [this.data.funcionario.cargo, {validators: [Validators.required], updateOn: 'change'}],
+      salario: [this.data.funcionario.salario, {validators: [Validators.required], updateOn: 'change'}],
+      dataAdmissao: [this.data.funcionario.dataAdmissao, {validators: [Validators.required], updateOn: 'change'}]
     })
   }
 }
