@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatTab, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NgForm, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { SignUpService } from './sign-up.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
   imports: [MatTabsModule, MatFormFieldModule, MatInputModule, FormsModule,
-    MatButtonModule, ReactiveFormsModule, MatSelectModule, HttpClientModule, CommonModule],
+    MatButtonModule, ReactiveFormsModule, MatSelectModule, HttpClientModule,
+    CommonModule, RouterModule],
   providers: [SignUpService],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
@@ -20,10 +22,16 @@ import { CommonModule } from '@angular/common';
 export class SignUpComponent {
   public role: string;
 
+  @ViewChild("formLogin") formLoginElement: NgForm;
+  @ViewChild("formCadastro") formCadastroElement: NgForm;
+
   public loginFormGroup: FormGroup;
   public cadastroFormGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private signUpService: SignUpService){}
+  public credenciaisInvalidas: boolean;
+  public cadastroSucesso: boolean;
+
+  constructor(private fb: NonNullableFormBuilder, private signUpService: SignUpService, private router: Router){}
 
   ngOnInit(){
     this.inicializarForms();
@@ -53,7 +61,18 @@ export class SignUpComponent {
     if(this.loginFormGroup.invalid){
       return;
     }
-    this.signUpService.login({login: this.loginFormGroup.value.login, password: this.loginFormGroup.value.senha});
+
+    this.signUpService.login({login: this.loginFormGroup.value.login, password: this.loginFormGroup.value.senha})
+      .subscribe(response => {
+        if(response && response.trim() != ''){
+          localStorage.setItem('token', response);
+          this.router.navigate(['/']);
+          this.credenciaisInvalidas = false;
+        }
+        else{
+          this.credenciaisInvalidas = true;
+        }
+      });
   }
 
   onSubmitCadastroForm(){
@@ -65,20 +84,16 @@ export class SignUpComponent {
       login: this.cadastroFormGroup.value.login,
       password: this.cadastroFormGroup.value.senha,
       role: this.cadastroFormGroup.value.role
-    })
+    }).subscribe(response => {
+      if(response){
+        this.cadastroSucesso = true;
+      }
+    }, (err) => this.cadastroSucesso = false);
   }
 
   onTabChanged(){
-    this.loginFormGroup.patchValue({
-      login: '',
-      senha: ''
-    });
-
-    this.cadastroFormGroup.patchValue({
-      login: '',
-      senha: '',
-      role: ''
-    });
+    this.formLoginElement.resetForm();
+    this.formCadastroElement.resetForm();
   }
 
   private inicializarForms(){

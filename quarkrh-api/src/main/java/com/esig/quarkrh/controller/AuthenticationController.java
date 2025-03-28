@@ -33,17 +33,21 @@ public class AuthenticationController {
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody  @Valid AuthenticationRecord authenticationRecord){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecord.login(), authenticationRecord.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((Users)auth.getPrincipal());
-        
-        return ResponseEntity.ok(token);
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationRecord.login(), authenticationRecord.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((Users)auth.getPrincipal());
+            return ResponseEntity.ok(token);
+        }
+        catch(Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
     
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRecord registerRecord){
         if(this.userRepository.findByLogin(registerRecord.login()) != null ) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(false);
         }
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerRecord.password());
@@ -51,6 +55,6 @@ public class AuthenticationController {
         
         this.userRepository.save(user);
         
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(true);
     }
 }

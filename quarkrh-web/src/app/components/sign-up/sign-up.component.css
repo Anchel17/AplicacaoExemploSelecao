@@ -27,6 +27,14 @@
   border-radius: 8px;
 }
 
+.login-invalido{
+  color: #DD0000;
+}
+
+.cadastro-sucesso{
+  color: #41a741;
+}
+
 ::ng-deep .mat-mdc-form-field-infix{
   padding: 8px!important;
   display: flex;

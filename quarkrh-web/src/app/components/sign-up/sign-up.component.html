@@ -1,15 +1,18 @@
 <div class="col-md-12">
   <div class="col-md-4 bg-light sign-up-container">
-    <mat-tab-group (selectedTabChange)="onTabChanged()" class="tab-group">
+    <mat-tab-group #tabGroup (selectedTabChange)="onTabChanged()" class="tab-group">
       <mat-tab label="Login">
         <div class="py-4">
           <form (ngSubmit)="onSubmitLoginForm()" [formGroup]="loginFormGroup"class="login-form-container text-left" #formLogin="ngForm">
+            <div class="login-invalido" *ngIf="credenciaisInvalidas && formLogin.submitted">
+              <p>Credenciais inválidas</p>
+            </div>
             <div class="input-form">
               <label for="usuario">Usuário</label>
               <mat-form-field appearance="outline">
                 <input matInput type="text" class="input" formControlName="login" name="usuario" required>
               </mat-form-field>
-              <p *ngIf="login.invalid && formLogin.submitted" class="validation-error">
+              <p *ngIf="login.invalid && (login.touched || formLogin.submitted)" class="validation-error">
                 O Usuário é obrigatório.
               </p>
             </div>
@@ -30,6 +33,12 @@
       <mat-tab label="Cadastro">
         <div class="py-4">
           <form (ngSubmit)="onSubmitCadastroForm()" [formGroup]="cadastroFormGroup" class="login-form-container text-left" #formCadastro="ngForm">
+            <div class="login-invalido" *ngIf="cadastroSucesso === false && formCadastro.submitted && formCadastro.valid">
+              <p>Usuário já cadastrado</p>
+            </div>
+            <div class="cadastro-sucesso" *ngIf="cadastroSucesso && formCadastro.submitted && formCadastro.valid">
+              <p>Cadastro realizado com Sucesso.</p>
+            </div>
             <div class="input-form">
               <label for="usuario">Usuário</label>
               <mat-form-field appearance="outline">
