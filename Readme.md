@@ -7,11 +7,16 @@ Anchel Vitor Varela da Silva
 Projeto feito para avaliação técnica para a vaga de Desenvolvedor Full Stack na ESIG. O projeto consiste em um sistema de cadastro de funcionários, onde podemos realizar todas as operações de um CRUD. Além disso, foi implementado um sistema de autenticação, em que o usuário só poderá realizar determinadas ações no sistema se estiver autenticado e tiver nível de acesso para tal.
 
 # Itens implementados
-a) Criar uma aplicação Front-end utilizando Angular na versão mais recente.
+a) Criar uma aplicação Front-end utilizando Angular na versã mais recente.
+
 b) Desenvolver o backend utilizando Java 21 e Spring Boot 3.
+
 c) Utilizar persistência em um banco de dados PostgreSQL e persistência JPA.
+
 d) Os endpoints devem ser em REST.
+
 e) A aplicação deverá ter um controle de login por usuário e senha e os endpoints devem autenticar através de token JWT.
+
 f) Utilizar testes de unidades.
 
 # Requisitos para compilação
