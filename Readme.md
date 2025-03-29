@@ -31,11 +31,12 @@ f) Utilizar testes de unidades.
 * Back-end: Abra a pasta quarkrh-api no seu terminal de preferência e execute o comando: mvn clean install
 
 # Execução
-* Front-end: Com um terminal aberto na pasta quarkrh-web, execute o comando: npm start;
-* Back-end: Com um terminal aberto na pasta quarkrh-api, execute o comando: npm start;
+* Crie um novo banco de dados no pgAdmin4 com o nome: quarkhr
+* Front-end: Com um terminal aberto na pasta quarkrh-web, execute o comando: npm start
+* Back-end: Com um terminal aberto na pasta quarkrh-api, execute o comando: mvn spring-boot:run
 ## Alternativas de execução
 * Front-end: Abra a pasta quarkrh-web pelo Vscode (File > Open Folder), abra o terminal do vscode e execute o comando npm start;
-* Back-end: Abra o projeto quarkrh-api pelo Eclipse (File > Open Projects from File System... > Directory. Após isso, abra o pacote com.esig.quarkrh, clique com o botão direito no arquivo QuarkRhApplication.java > Run As > Java Application.
+* Back-end: Abra o projeto quarkrh-api pelo Eclipse (File > Open Projects from File System... > Directory). Após isso, abra o pacote com.esig.quarkrh, clique com o botão direito no arquivo QuarkRhApplication.java > Run As > Java Application.
 
 ## Execução dos testes unitários
 Clique com o botão direito do mouse sobre o projeto quarkrh > Coverage As > JUnit Test. 
