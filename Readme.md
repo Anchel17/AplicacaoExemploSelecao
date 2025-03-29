@@ -31,7 +31,7 @@ f) Utilizar testes de unidades.
 * Back-end: Abra a pasta quarkrh-api no seu terminal de preferência e execute o comando: mvn clean install
 
 # Execução
-* Crie um novo banco de dados no pgAdmin4 com o nome: quarkhr
+* Crie um novo banco de dados no pgAdmin4 com o nome: quarkrh
 * Front-end: Com um terminal aberto na pasta quarkrh-web, execute o comando: npm start
 * Back-end: Com um terminal aberto na pasta quarkrh-api, execute o comando: mvn spring-boot:run
 ## Alternativas de execução
